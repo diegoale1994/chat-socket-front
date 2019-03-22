@@ -1,0 +1,35 @@
+<div class="card animated fadeIn fast">
+  <div class="card-header">
+      <ul class="nav navpills card-header-pills">
+          <li class="nav-item mr-2" *ngIf="!conectado">
+              <input type="text" class="form-control" placeholder="Escribe usuario" name="username" [(ngModel)]="mensaje.username">
+            </li>
+        <li class="nav-item mr-2">
+          <button class="btn btn-success" type="button" (click) = "conectar()"
+          *ngIf="!conectado" [disabled] = "!mensaje.username">Conectar</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-warning" type="button" (click) = "desconectar()"
+          *ngIf="conectado">Desconectar</button>
+        </li>
+      </ul>
+  </div>
+  <div class="card-body" style="overflow-y: scroll; height:360px;"
+  *ngIf="conectado">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item list-group-item-light" *ngFor="let mensaje of mensajes">
+      <span *ngIf="mensaje.tipo =='NUEVO_USUARIO'">{{mensaje.fecha | date:'shortTime'}} Nuevo usuario: <span [ngStyle]="{'color': mensaje.color}">@{{mensaje.username}}</span></span>
+      <span *ngIf="mensaje.tipo =='MENSAJE'">{{mensaje.fecha | date:'shortTime'}} <span [ngStyle]="{'color': mensaje.color}">@{{mensaje.username}}</span> dice:<br> {{mensaje.texto}}</span>
+    </li>
+  </ul>
+  </div>
+
+  <div class="card-footer" *ngIf="conectado">
+      <form class="form-inline">
+        <div class="form-group mx-3">
+          <input type="text" class="form-control" placeholder="Escribe tu mensaje" name="texto" [(ngModel)]="mensaje.texto">
+        </div>
+        <button  (click) = "enviarMensaje()"  class="btn btn-primary" type="submit">Enviar</button>
+      </form>
+  </div>
+</div>
